@@ -35,8 +35,8 @@ import {
 export default function App() {
   // --- CORE ROUTING/ROLE STATE ---
   // "landing" | "login_selector" | "patient" | "doctor" | "admin"
-  const [activeRoleMode, setActiveRoleMode] = useState<"landing" | "login_selector" | "patient" | "doctor" | "admin">("landing");
-  const [selectedRoleForLogin, setSelectedRoleForLogin] = useState<"patient" | "doctor" | "admin">("patient");
+  const [activeRoleMode, setActiveRoleMode] = useState("landing");
+  const [selectedRoleForLogin, setSelectedRoleForLogin] = useState("patient");
 
   // --- APPLICATION STATES ---
   const [doctors, setDoctors] = useState([]);
@@ -53,7 +53,7 @@ export default function App() {
 
   // Patient Profile state
   const [patientEmail, setPatientEmail] = useState("rajesh@example.com");
-  const [patientProfile, setPatientProfile] = useState<any>(null);
+  const [patientProfile, setPatientProfile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [patientTrackers, setPatientTrackers] = useState([]);
 
@@ -207,7 +207,7 @@ export default function App() {
       const res = await fetch("/api/queue");
       const data = await res.json();
       // Filter for active doctor portal
-      const filtered = data.filter((q: any) => q.doctor_id === activeDoctorPortalId);
+      const filtered = data.filter((q) => q.doctor_id === activeDoctorPortalId);
       setDoctorQueue(filtered);
     } catch (e) {
       console.error("Failed to fetch full queue stream", e);
@@ -235,7 +235,7 @@ export default function App() {
   }, [patientProfile, activeDoctorPortalId]);
 
   // Handle Simulated Patient Login lookup
-  const handleLogin = async (e?: any) => {
+  const handleLogin = async (e) => {
     if (e) e.preventDefault();
     if (!patientEmail) return;
 
@@ -977,7 +977,7 @@ export default function App() {
                         onChange={(e) => setActiveDoctorPortalId(e.target.value)}
                         className="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-250 cursor-pointer rounded-xl font-bold outline-none"
                       >
-                        {doctors.map((d: any) => (
+                        {doctors.map((d) => (
                           <option key={d.doctor_id} value={d.doctor_id}>
                             {d.name} ({d.specialization}) - Room {d.room_number || "A"}
                           </option>
@@ -988,7 +988,7 @@ export default function App() {
                     <button
                       onClick={() => {
                         setActiveRoleMode("doctor");
-                        triggerBannerAlert(`Logged into Doctor Portal console for Doctor: ${doctors.find((d: any) => d.doctor_id === activeDoctorPortalId)?.name || 'Physician'}`);
+                        triggerBannerAlert(`Logged into Doctor Portal console for Doctor: ${doctors.find((d) => d.doctor_id === activeDoctorPortalId)?.name || 'Physician'}`);
                       }}
                       className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm"
                     >
@@ -1099,7 +1099,7 @@ export default function App() {
                   </div>
 
                   <div className="p-4 space-y-3 max-h-[350px] overflow-y-auto">
-                    {doctors.map((d: any) => (
+                    {doctors.map((d) => (
                       <div 
                         key={d.doctor_id} 
                         className={`p-4 rounded-xl border border-slate-150 hover:bg-slate-50/50 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 cursor-pointer ${
@@ -1163,7 +1163,7 @@ export default function App() {
                         onChange={(e) => setBookingDoctorId(e.target.value)}
                         className="w-full text-xs px-3 py-2 bg-white rounded-lg border border-slate-200 focus:border-indigo-450 font-bold cursor-pointer outline-none"
                       >
-                        {doctors.map((d: any) => (
+                        {doctors.map((d) => (
                           <option key={d.doctor_id} value={d.doctor_id}>
                             {d.name} ({d.specialization}) - Room {d.room_number || 'A'}
                           </option>
@@ -1241,7 +1241,7 @@ export default function App() {
                     </div>
                   ) : (
                     <div className="space-y-4.5" id="real-time-wait-ticker">
-                      {patientTrackers.map((track: any) => {
+                      {patientTrackers.map((track) => {
                         const isWaiting = track.queue_status === "Waiting";
                         const isConsulting = track.queue_status === "In Consultation";
                         const isDone = track.queue_status === "Completed";
@@ -1586,14 +1586,14 @@ export default function App() {
                 </span>
                 <h2 className="text-xl font-bold tracking-tight text-white flex items-center justify-center md:justify-start gap-2">
                   <Stethoscope className="h-5 w-5 text-amber-400" />
-                  Welcome Doctor: {doctors.find((d: any) => d.doctor_id === activeDoctorPortalId)?.name || 'Physician'}
+                  Welcome Doctor: {doctors.find((d) => d.doctor_id === activeDoctorPortalId)?.name || 'Physician'}
                 </h2>
                 <div className="text-[10.5px] text-slate-350 space-x-1 font-medium font-mono">
-                  <span>ACTIVE DESK: <strong>{doctors.find((d: any) => d.doctor_id === activeDoctorPortalId)?.specialization || 'General'}</strong></span>
+                  <span>ACTIVE DESK: <strong>{doctors.find((d) => d.doctor_id === activeDoctorPortalId)?.specialization || 'General'}</strong></span>
                   <span>&bull;</span>
-                  <span>Room {doctors.find((d: any) => d.doctor_id === activeDoctorPortalId)?.room_number || 'Room 101'}</span>
+                  <span>Room {doctors.find((d) => d.doctor_id === activeDoctorPortalId)?.room_number || 'Room 101'}</span>
                   <span>&bull;</span>
-                  <span>Timings: {doctors.find((d: any) => d.doctor_id === activeDoctorPortalId)?.availability || '09:00 AM - 05:00 PM'}</span>
+                  <span>Timings: {doctors.find((d) => d.doctor_id === activeDoctorPortalId)?.availability || '09:00 AM - 05:00 PM'}</span>
                 </div>
               </div>
 
@@ -1603,7 +1603,7 @@ export default function App() {
                   onChange={(e) => setActiveDoctorPortalId(e.target.value)}
                   className="text-xs px-3 py-2 bg-slate-800 text-white border border-slate-700 rounded-xl outline-none font-bold cursor-pointer hover:bg-slate-750"
                 >
-                  {doctors.map((d: any) => (
+                  {doctors.map((d) => (
                     <option key={d.doctor_id} value={d.doctor_id}>
                       {d.name} ({d.specialization})
                     </option>
@@ -1666,8 +1666,8 @@ export default function App() {
                     </div>
                   ) : (
                     <div className="divide-y divide-slate-100 max-h-[480px] overflow-y-auto">
-                      {doctorQueue.map((item: any) => {
-                        const patRec = patients.find((p: any) => p.patient_id === item.patient_id) as any;
+                      {doctorQueue.map((item) => {
+                        const patRec = patients.find((p) => p.patient_id === item.patient_id);
                         const isWaiting = item.queue_status === "Waiting";
                         const isConsulting = item.queue_status === "In Consultation";
                         const isDone = item.queue_status === "Completed";
@@ -1928,7 +1928,7 @@ export default function App() {
                   </div>
 
                   <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
-                    {doctors.map((d: any) => (
+                    {doctors.map((d) => (
                       <div 
                         key={d.doctor_id} 
                         className="p-3 border border-slate-200 bg-slate-50/40 rounded-xl flex items-center justify-between text-xs"
